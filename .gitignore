@@ -1,0 +1,16 @@
+node_modules
+build
+npm-debug.log
+.env
+.serverless/
+.eslintcache
+.npm
+logs
+*.log
+./stack.json
+keys
+.webpack
+log
+docs
+.vscode
+TODO.md

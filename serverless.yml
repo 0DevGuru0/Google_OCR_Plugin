@@ -1,0 +1,39 @@
+# ?>NOTICE::two below options create app and org inside serverless dashboard & need serverless login for deploy.
+# org: <org-name-in-serverless-framework>
+# app: <app-name-for-serverless-framework>
+service: google-ocr-plugin-avid
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  timeout: 30
+  region: eu-central-1
+  runtime: nodejs12.x
+
+plugins:
+  - serverless-offline
+  - serverless-stack-output
+  - serverless-dotenv-plugin
+  - serverless-webpack
+
+functions:
+  ocrFile:
+    handler: src/handler.ocrHandler
+    timeout: 900
+    events:
+      - http:
+          path: ocrFile
+          method: POST
+          cors: true
+
+
+  controller:
+    handler: src/handler.ocrResultChecker
+    timeout: 900
+    events:
+      - schedule: rate(15 minutes)
+custom:
+  output:
+    handler: src/handler.ocrHandler
+    file: outputStacks/ocrHandler.json
+  webpack:
+    includeModules: true

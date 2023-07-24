@@ -1,0 +1,19 @@
+image: node:latest
+stages:
+  - test
+  - deploy
+test:
+  stage: test
+  script:
+    - npm install
+    - npm test
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - mkdir keys && echo $GOOGLE_SVC_KEY > keys/svc.json
+  script:
+    - npm install
+    - npm run deploy -- --verbose
